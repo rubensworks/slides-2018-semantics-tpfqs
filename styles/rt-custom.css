@@ -88,6 +88,12 @@ footer {
     content: none;
 }
 
+.slide ul > li {
+    margin-left: 1em;
+    margin-bottom: 0.8em;
+    line-height: 1.2em;
+}
+
 .slide::after {
     display: none;
 }
