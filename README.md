@@ -1,5 +1,7 @@
 # Slides for SEMANTiCS 2018 on TPF-QS
 
+[![Build Status](https://travis-ci.org/rubensworks/slides-2018-semantics-tpfqs.svg?branch=master)](https://travis-ci.org/rubensworks/slides-2018-semantics-tpfqs)
+
 These slides are created using the [shower](https://github.com/shower/shower) framework.
 
 ## Build
