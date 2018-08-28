@@ -1,5 +1,6 @@
 {
   "name": "@rubensworks/slides-2018-semantics-tpfqs",
+  "private": true,
   "version": "1.0.0",
   "main": "index.js",
   "author": "Ruben Taelman <ruben.taelman@ugent.be>",
@@ -8,8 +9,7 @@
     "serve": "shower serve",
     "pdf": "shower pdf",
     "archive": "shower archive",
-    "prepare": "shower prepare",
-    "publish": "shower publish"
+    "prepare": "shower prepare"
   },
   "dependencies": {
     "shower-core": "^2.1.0",
