@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+  <head prefix="foaf: http://xmlns.com/foaf/0.1/">
     <title>On the Semantics of TPF-QS, Towards Publishing and Querying RDF Streams at Web-scale</title>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="node_modules/shower-material/styles/styles.css">
-    <link rel="stylesheet" href="styles/rt-custom.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="node_modules/shower-material/styles/styles.css" />
+    <link rel="stylesheet" href="styles/rt-custom.css" />
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <link href='https://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css' />
+    
+    <link rel="foaf:maker" href="https://www.rubensworks.net/#me" />
 
     <style>
       .shower {
@@ -17,52 +19,52 @@
     </style>
   </head>
 
-  <body class="shower list">
+  <body class="shower list" prefix="rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns# foaf: http://xmlns.com/foaf/0.1/ owl: http://www.w3.org/2002/07/owl# xsd: http://www.w3.org/2001/XMLSchema# org: http://www.w3.org/ns/org# schema: http://schema.org/" typeof="schema:PresentationDigitalDocument">
     <header class="caption">
       <div class="title">
-        <h1>On the Semantics of TPF-QS</h1>
+        <h1 property="schema:name">On the Semantics of TPF-QS</h1>
         <p class="subtitle">Towards Publishing and Querying RDF Streams at Web-scale</p>
       </div>
       <div class="captiondata">
-        <p class="author"><a href="https://www.rubensworks.net/">Ruben Taelman</a></p>
+        <p class="author" rel="schema:author"><a href="https://www.rubensworks.net/#me">Ruben Taelman</a></p>
         <p class="venue">
-          <a href="https://2018.semantics.cc/">SEMANTiCS</a>, 12 September 2018
+          <a href="https://2018.semantics.cc/">SEMANTiCS</a>, <span rel="schema:datePublished">12 September 2018</span></a>
         </p>
       </div>
     </header>
 
-    <section class="slide title">
+    <section id="title" class="slide title">
       <h2>On the Semantics of TPF-QS</h2>
       <h3>Towards Publishing and Querying RDF Streams at Web-scale</h3>
       <ul class="author inline">
           <li class="current"><a href="https://www.rubensworks.net/">Ruben Taelman</a><sup>1</sup></li>
-          <li><a href="http://riccardotommasini.com/">Riccardo Tommasini</a><sup>2</sup></li>
+          <li><a property="schema:contributor" href="http://riccardotommasini.com/">Riccardo Tommasini</a><sup>2</sup></li>
           <li>Joachim Van Herwegen<sup>1</sup></li>
           <li>Miel Vander Sande<sup>1</sup></li>
-          <li><a href="http://emanueledellavalle.org/">Emanuele Della Valle</a><sup>2</sup></li>
-          <li><a href="https://ruben.verborgh.org/">Ruben Verborgh</a><sup>1</sup></li>
+          <li><a property="schema:contributor" href="http://emanueledellavalle.org/">Emanuele Della Valle</a><sup>2</sup></li>
+          <li><a property="schema:contributor" href="https://ruben.verborgh.org/">Ruben Verborgh</a><sup>1</sup></li>
       </ul>
       <p class="affiliation"><sup>1</sup><a href="http://idlab.technology/">Ghent University – imec – IDLab, Belgium</a></p>
       <p class="affiliation"><sup>2</sup><a href="https://www.deib.polimi.it/ita/home">Dipartimento di Elettronica, Informazione e Bioingegneria, Politecnico of Milano, Italy</a></p>
     </section>
     
-    <section class="slide">
+    <section id="start" class="slide">
       <h2>Just like <em>SPARQL endpoints</em> are not the solution to publish <em>RDF</em> on the Web,<br />
           SPARQL-like <em>RSP engines</em> should not be used to publish <em>RDF streams</em>.</h2>
     </section>
     
-    <section class="slide">
+    <section id="tpfqs-intro" class="slide">
       <h2>TPF-QS: Client-side RDF Stream Processing</h2>
       <ul>
           <li>Client interacts with the low-cost <em>Triple Pattern Fragments</em> server interface</li>
           <li>How does it compare to other RDF Stream Processing (RSP) engines, both <em>formally</em> and <em>empirically</em>?</li>
       </ul>
       <center>
-          <img src="img/ldf.svg" width="300em" />
+          <img src="img/ldf.svg" width="300em" alt="Linked Data Fragments" />
       </center>
     </section>
     
-    <section class="slide index" id="index">
+    <section id="index" class="slide index">
       <ul>
         <li><a href="#index-tpfqs">TPF-QS: Client-side RDF Stream Processor</a></li>
         <li><a href="#index-rspql">RSPQL Formalization</a></li>
@@ -70,7 +72,7 @@
       </ul>
     </section>
     
-    <section class="slide index" id="index-tpfqs">
+    <section id="index-tpfqs" class="slide index">
       <ul>
         <li class="current"><a href="#index-tpfqs">TPF-QS: Client-side RDF Stream Processor</a></li>
         <li><a href="#index-rspql">RSPQL Formalization</a></li>
@@ -78,15 +80,15 @@
       </ul>
     </section>
     
-    <section class="slide">
+    <section id="tpf" class="slide">
       <h2>Triple Pattern Fragments<br />a low-cost Linked Data interface</h2>
       TODO
     </section>
 
     <footer>
       <p class="license">
-            &#169; 2018 <a href="https://www.rubensworks.net">Ruben Taelman</a>
-            — <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0</a>, unless otherwise indicated.
+            &#169; <span property="schema:copyrightYear">2018</span> <a href="https://www.rubensworks.net" rel="schema:copyrightHolder"><span resource="https://www.rubensworks.net/#me">Ruben Taelman</span></a>
+            — <a rel="license" href="https://creativecommons.org/licenses/by/4.0/" property="schema:license">Creative Commons Attribution 4.0</a>, unless otherwise indicated.
       </p>
       <a href="https://github.com/rubensworks/slides-2018-semantics-tpfqs">Source</a>
     </footer>
