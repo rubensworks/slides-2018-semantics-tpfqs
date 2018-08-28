@@ -160,6 +160,10 @@ li.current {
     color: #111;
 }
 
+li.inactive {
+    color: #aaa;
+}
+
 .slide a.reference {
     font-style: italic;
     font-size: 0.8em;
@@ -168,6 +172,14 @@ li.current {
 
 .center {
     text-align: center;
+}
+
+.indent {
+    margin-left: 1em;
+}
+
+.inline {
+    display: inline;
 }
 
 @media print {

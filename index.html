@@ -49,12 +49,12 @@
     </section>
     
     <section id="start" class="slide center">
-      <h2 class="big">Just like <strong>SPARQL endpoints</strong> are costly for publishing <strong>RDF</strong> on the Web,<br />
+      <h2 class="big">Just like <strong>SPARQL query endpoints</strong> are costly for publishing <strong>RDF</strong> on the Web,<br />
           SPARQL-like <strong>RSP engines</strong> are costly for publishing <strong>RDF streams</strong>.</h2>
     </section>
     
     <section id="tpfqs-intro" class="slide">
-      <h2>Instead of fully processing server-side,<br />let clients do part of the work</h2>
+      <h2>Instead of fully processing server-side,<br />let clients do part of the query work</h2>
       <center><h3 class="next">TPF-QS: Client-side RDF Stream Processing <a property="schema:citation cite:cites" href="https://www.rubensworks.net/publications/taelman_mepdaw_bp_2016/" class="reference">(Taelman 2016)</a></h3></center>
       <ul>
           <li class="next">Client interacts with the low-cost <em>Triple Pattern Fragments</em> server interface</li>
@@ -68,7 +68,7 @@
     
     <section id="index" class="slide index">
       <ul>
-        <li><a href="#index-tpfqs">TPF-QS: Client-side RDF Stream Processor</a></li>
+        <li><a href="#index-tpfqs">TPF-QS: a Client-side RDF Stream Processor</a></li>
         <li><a href="#index-rspql">RSPQL Formalization</a></li>
         <li><a href="#index-comparison">Comparison with other RSP engines</a></li>
       </ul>
@@ -76,15 +76,124 @@
     
     <section id="index-tpfqs" class="slide index">
       <ul>
-        <li class="current"><a href="#index-tpfqs">TPF-QS: Client-side RDF Stream Processor</a></li>
+        <li class="current"><a href="#index-tpfqs">TPF-QS: a Client-side RDF Stream Processor</a></li>
         <li><a href="#index-rspql">RSPQL Formalization</a></li>
         <li><a href="#index-comparison">Comparison with other RSP engines</a></li>
       </ul>
     </section>
     
+    <section id="tpfqs-overview" class="slide">
+      <h2>TPF-QS is a client-side RSP engine</h2>
+      <ul>
+          <li class="next">
+              <h3><a href="#time-annotation">Time annotation</a></h3>
+              <p class="indent">RDF streams are <strong>annotated</strong> with their time validity</p>
+          </li>
+          <li class="next">
+              <h3><a href="#tpf">Low-cost server</a></h3>
+              <p class="indent">Expose RDF streams through a <strong>TPF interface</strong></p>
+          </li>
+          <li class="next">
+              <h3><a href="#client-exec">Just-in-time</a></h3>
+              <p class="indent">Client re-executes the query when result <strong>expires</strong></p>
+          </li>
+      </ul>
+    </section>
+    
+    <section id="time-annotation" class="slide">
+      <h2>RDF stream annotation to indicate expiration times</h2>
+      <p class="next"><em><strong>Assumption</strong>: duration of each stream element is predefined</em></p>
+      <ul class="next">
+          <li><em>09:15 - 09:20</em> &nbsp; <pre class="inline">radio:my m:plays song-x</pre></li>
+          <li><em>09:20 - 09:25</em> &nbsp; <pre class="inline">radio:my m:plays song-y</pre></li>
+          <li><em>09:25 - 09:30</em> &nbsp; <pre class="inline">radio:my m:plays song-z</pre></li>
+      </ul>
+      <p class="next">Can be serialized as named graphs, singleton properties, reification, ...</p>
+    </section>
+    
     <section id="tpf" class="slide">
-      <h2>Triple Pattern Fragments<br />a low-cost Linked Data interface</h2>
-      TODO
+      <h2>Triple Pattern Fragments, <a property="schema:citation cite:cites" href="https://ruben.verborgh.org/publications/verborgh_jws_2016/" class="reference">(Verborgh 2016)</a><br />a low-cost Linked Data interface</h2>
+      <ul>
+          <li>Server exposes <strong>triple pattern</strong> interface over HTTP:
+              <code style="display: block">http://fragments.dbpedia.org/2016-04/en<br />
+              ?subject=<strong>&lt;subject&gt;</strong>&predicate=<strong>&lt;predicate&gt;</strong>&object=<strong>&lt;object&gt;</strong>
+              </code>
+          </li>
+          <li>Clients evaluate full SPARQL queries client-side</li>
+          <li>&rarr; Lowers server load</li>
+      </ul>
+      <center><img src="img/ldf.svg" width="300em" alt="Linked Data Fragments" class="center" /></center>
+    </section>
+    
+    <section id="client-exec" class="slide">
+      <h2>Client evaluates <em>only</em> when needed</h2>
+      <p><strong>Continuous SPARQL query:</strong> <pre class="indent">SELECT ?song WHERE { radio:my m:plays ?song }</pre></p>
+      <div>
+          <div style="float:left"><strong>RDF Stream:</strong>
+              <ul>
+                  <li><em>09:15 - 09:20</em> &nbsp; <pre class="inline">radio:my m:plays song-x</pre></li>
+                  <li class="inactive"><em>09:20 - 09:25</em> &nbsp; <pre class="inline">radio:my m:plays song-y</pre></li>
+                  <li class="inactive"><em>09:25 - 09:30</em> &nbsp; <pre class="inline">radio:my m:plays song-z</pre></li>
+              </ul>
+          </div>
+          <div style="float:right"><strong>Query results:</strong>
+              <ul>
+                  <li><em>09:15</em> &nbsp; <pre class="inline">song-x</pre></li>
+                  <li class="inactive"><em>09:20</em> &nbsp; <pre class="inline">song-x</pre></li>
+                  <li class="inactive"><em>09:25</em> &nbsp; <pre class="inline">song-x</pre></li>
+              </ul>
+          </div>
+      </div>
+    </section>
+    
+    <section id="client-exec-1" class="slide">
+      <h2>Client evaluates <em>only</em> when needed</h2>
+      <p><strong>Continuous SPARQL query:</strong> <pre class="indent">SELECT ?song WHERE { radio:my m:plays ?song }</pre></p>
+      <div>
+          <div style="float:left"><strong>RDF Stream:</strong>
+              <ul>
+                  <li class="inactive"><em>09:15 - 09:20</em> &nbsp; <pre class="inline">radio:my m:plays song-x</pre></li>
+                  <li><em>09:20 - 09:25</em> &nbsp; <pre class="inline">radio:my m:plays song-y</pre></li>
+                  <li class="inactive"><em>09:25 - 09:30</em> &nbsp; <pre class="inline">radio:my m:plays song-z</pre></li>
+              </ul>
+          </div>
+          <div style="float:right"><strong>Query results:</strong>
+              <ul>
+                  <li class="inactive"><em>09:15</em> &nbsp; <pre class="inline">song-x</pre></li>
+                  <li><em>09:20</em> &nbsp; <pre class="inline">song-x</pre></li>
+                  <li class="inactive"><em>09:25</em> &nbsp; <pre class="inline">song-x</pre></li>
+              </ul>
+          </div>
+      </div>
+    </section>
+    
+    <section id="client-exec-2" class="slide">
+      <h2>Client evaluates <em>only</em> when needed</h2>
+      <p><strong>Continuous SPARQL query:</strong> <pre class="indent">SELECT ?song WHERE { radio:my m:plays ?song }</pre></p>
+      <div>
+          <div style="float:left"><strong>RDF Stream:</strong>
+              <ul>
+                  <li class="inactive"><em>09:15 - 09:20</em> &nbsp; <pre class="inline">radio:my m:plays song-x</pre></li>
+                  <li class="inactive"><em>09:20 - 09:25</em> &nbsp; <pre class="inline">radio:my m:plays song-y</pre></li>
+                  <li><em>09:25 - 09:30</em> &nbsp; <pre class="inline">radio:my m:plays song-z</pre></li>
+              </ul>
+          </div>
+          <div style="float:right"><strong>Query results:</strong>
+              <ul>
+                  <li class="inactive"><em>09:15</em> &nbsp; <pre class="inline">song-x</pre></li>
+                  <li class="inactive"><em>09:20</em> &nbsp; <pre class="inline">song-x</pre></li>
+                  <li><em>09:25</em> &nbsp; <pre class="inline">song-x</pre></li>
+              </ul>
+          </div>
+      </div>
+    </section>
+    
+    <section id="index-rspql" class="slide index">
+      <ul>
+        <li><a href="#index-tpfqs">TPF-QS: a Client-side RDF Stream Processor</a></li>
+        <li class="current"><a href="#index-rspql">RSPQL Formalization</a></li>
+        <li><a href="#index-comparison">Comparison with other RSP engines</a></li>
+      </ul>
     </section>
 
     <footer>
