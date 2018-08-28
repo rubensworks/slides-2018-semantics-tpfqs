@@ -85,6 +85,7 @@ footer {
 
 .slide {
     background: #f6fdf5;
+    padding: 30px 60px 0 60px;
 }
 
 .slide ul > li::before {
