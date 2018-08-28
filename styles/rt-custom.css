@@ -2,8 +2,9 @@
     --color-key: #2a7ae2;
 }
 
-a {
-    color: inherit !important;
+a,
+.slide a {
+    color: inherit;
     text-decoration: none;
     background-image: none !important;
 }
@@ -134,7 +135,6 @@ footer {
 
 .slide h2, h3, h4, h5, h6 {
     color: #1756a9;
-    font-weight: bold;
 }
 
 .slide.index {
@@ -145,9 +145,29 @@ footer {
     color: #777676;
 }
 
+.slide h2.big {
+    margin-top: 1em;
+    font-size: 2.1em;
+    line-height: 1.3;
+}
+
+.slide h2 strong {
+    font-weight: 900;
+}
+
 li.current {
     font-weight: bolder;
     color: #111;
+}
+
+.slide a.reference {
+    font-style: italic;
+    font-size: 0.8em;
+    color: #919191;
+}
+
+.center {
+    text-align: center;
 }
 
 @media print {

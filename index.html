@@ -19,7 +19,7 @@
     </style>
   </head>
 
-  <body class="shower list" prefix="rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns# foaf: http://xmlns.com/foaf/0.1/ owl: http://www.w3.org/2002/07/owl# xsd: http://www.w3.org/2001/XMLSchema# org: http://www.w3.org/ns/org# schema: http://schema.org/" typeof="schema:PresentationDigitalDocument">
+  <body class="shower list" prefix="rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns# foaf: http://xmlns.com/foaf/0.1/ owl: http://www.w3.org/2002/07/owl# xsd: http://www.w3.org/2001/XMLSchema# org: http://www.w3.org/ns/org# schema: http://schema.org/ cite: http://purl.org/spar/cito/" typeof="schema:PresentationDigitalDocument">
     <header class="caption">
       <div class="title">
         <h1 property="schema:name">On the Semantics of TPF-QS</h1>
@@ -48,20 +48,22 @@
       <p class="affiliation"><sup>2</sup><a href="https://www.deib.polimi.it/ita/home">Dipartimento di Elettronica, Informazione e Bioingegneria, Politecnico of Milano, Italy</a></p>
     </section>
     
-    <section id="start" class="slide">
-      <h2>Just like <em>SPARQL endpoints</em> are not the solution to publish <em>RDF</em> on the Web,<br />
-          SPARQL-like <em>RSP engines</em> should not be used to publish <em>RDF streams</em>.</h2>
+    <section id="start" class="slide center">
+      <h2 class="big">Just like <strong>SPARQL endpoints</strong> are costly for publishing <strong>RDF</strong> on the Web,<br />
+          SPARQL-like <strong>RSP engines</strong> are costly for publishing <strong>RDF streams</strong>.</h2>
     </section>
     
     <section id="tpfqs-intro" class="slide">
-      <h2>TPF-QS: Client-side RDF Stream Processing</h2>
+      <h2>Instead of fully processing server-side,<br />let clients do part of the work</h2>
+      <center><h3 class="next">TPF-QS: Client-side RDF Stream Processing <a property="schema:citation cite:cites" href="https://www.rubensworks.net/publications/taelman_mepdaw_bp_2016/" class="reference">(Taelman 2016)</a></h3></center>
       <ul>
-          <li>Client interacts with the low-cost <em>Triple Pattern Fragments</em> server interface</li>
-          <li>How does it compare to other RDF Stream Processing (RSP) engines, both <em>formally</em> and <em>empirically</em>?</li>
+          <li class="next">Client interacts with the low-cost <em>Triple Pattern Fragments</em> server interface</li>
       </ul>
-      <center>
-          <img src="img/ldf.svg" width="300em" alt="Linked Data Fragments" />
-      </center>
+      <center><img src="img/ldf.svg" width="300em" alt="Linked Data Fragments" class="center" /></center>
+    </section>
+    
+    <section id="research-question" class="slide center">
+      <h2 class="big">How does <strong>TPF-QS</strong> compare to other RDF Stream Processing (RSP) engines, both <strong>formally</strong> and <strong>empirically</strong>?</h2>
     </section>
     
     <section id="index" class="slide index">
