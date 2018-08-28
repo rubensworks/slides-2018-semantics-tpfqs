@@ -98,16 +98,38 @@ footer {
     line-height: 1.2em;
 }
 
+.slide ul.inline > li {
+    display: inline;
+    margin: 0;
+}
+
+.slide ul.inline > li:after {
+    content: ", ";
+}
+
+.slide ul.inline > li:last-child:after {
+    content: "";
+}
+
 .slide::after {
     display: none;
 }
 
-.slide.title {
-    
+.slide.title h2 {
+    margin-top: 1em;
+    font-size: 3em;
 }
 
-.slide.title h2 {
-    font-size: 3em;
+.slide.title .author {
+    font-size: 0.8em;
+    margin-left: 1em;
+}
+
+.slide.title .affiliation {
+    font-style: italic;
+    font-size: 0.7em;
+    margin: 0;
+    margin-left: 1em;
 }
 
 .slide h2, h3, h4, h5, h6 {
