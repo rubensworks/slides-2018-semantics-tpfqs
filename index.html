@@ -63,7 +63,7 @@
     </section>
     
     <section id="research-question" class="slide center">
-      <h2 class="big">How does <strong>TPF-QS</strong> compare to other RDF Stream Processing (RSP) engines, both <strong>formally</strong> and <strong>empirically</strong>?</h2>
+      <h2 class="big">How does <strong>TPF-QS</strong> compare to other RDF Stream Processing (RSP) engines, both <strong>formally</strong> and <strong>experimentally</strong>?</h2>
     </section>
     
     <section id="index" class="slide index">
@@ -254,7 +254,7 @@
       </ul>
     </section>
     
-    <section id="rspql-operation-semantics" class="slide">
+    <section id="rspql-operational-semantics" class="slide">
       <h2>Comparison of Operational Semantics under RSP-QL <em>(summary)</em></h2>
       <table>
           <tr>
@@ -288,6 +288,130 @@
               <td>Content-change</td>
           </tr>
       </table>
+    </section>
+    
+    <section id="citybench" class="slide">
+      <h2>Experimental comparison using CityBench <a property="schema:citation cite:cites" href="https://link.springer.com/chapter/10.1007/978-3-319-25010-6_25" class="reference">(Ali 2015)</a></h2>
+      <ul>
+          <li class="next">
+              <h3>RSP benchmarking suite based on real-world sensor data</h3>
+              <p class="indent">Streams have a low volatility, ideal for TPF-QS</p>
+          </li>
+          <li class="next">
+              <h3>Relevant metrics for RSP</h3>
+              <p class="indent">Result completeness: result streams vs expected streams</p>
+              <p class="indent">Scalability: CPU usage and execution time</p>
+              <p class="indent">Result latency: Delay until each stream element appears as result</p>
+          </li>
+          <li class="next">
+              <h3>Adapters for benchmarking C-SPARQL and CQELS</h3>
+          </li>
+      </ul>
+    </section>
+    
+    <section id="citybench-adaptation" class="slide">
+      <h2>Adaptation of CityBench for TPF-QS</h2>
+      <em>CityBench does not work out-of-the-box with TPF-QS, so changes were needed.</em>
+      <ul>
+          <li class="next">
+              <h3>Queries only available in C-SPARQL and CQELS syntax</h3>
+              <p class="indent">Equivalent SPARQL 1.1 queries were created for TPF-QS</p>
+              <p class="indent"><em><a href="https://zenodo.org/record/200844#.W4ZQBZMzaHq">Transformation algorithm in appendix</a></em></p>
+          </li>
+          <li class="next">
+              <h3>Assumption of server-side engines</h3>
+              <p class="indent">Multi-client support was added for single TPF server and multiple TPF-QS clients</p>
+              <p class="indent">Client CPU usage and bandwidth usage is also measures</p>
+          </li>
+      </ul>
+    </section>
+    
+    <section id="citybench-setup" class="slide">
+      <h2>Experimental Setup of CityBench</h2>
+      <ul>
+          <li>TPF-QS, C-SPARQL, CQELS</li>
+          <li>1 server machine, 8 client machines</li>
+          <li>6 CityBench queries <em>(resulting frequency of 10 seconds)</em></li>
+          <li>Concurrent clients: 1, 16, 32, 64</li>
+          <li>15 minutes experiment runtime</li>
+      </ul>
+    </section>
+    
+    <section id="results-simple" class="slide">
+      <h2>TPF-QS achieves <em>lower server CPU usage</em> and <em>lower latency</em> for <em>simple queries</em></h2>
+      <table>
+          <tr>
+              <th class="title"></th>
+              <th style="text-align:center">Q1</th>
+              <th style="text-align:center">Q2</th>
+              <th style="text-align:center">Q3</th>
+          </tr>
+          <tr>
+              <td class="title">CPU</td>
+              <td><img src="img/q1.svg" width=250px /></td>
+              <td><img src="img/q2.svg" width=250px /></td>
+              <td><img src="img/q3.svg" width=250px /></td>
+          </tr>
+          <tr>
+              <td class="title">Latency</td>
+              <td><img src="img/q1-lat.svg" width=250px /></td>
+              <td><img src="img/q2-lat.svg" width=250px /></td>
+              <td><img src="img/q3-lat.svg" width=250px /></td>
+          </tr>
+      </table>
+    </section>
+    
+    <section id="results-complex" class="slide">
+      <h2>TPF-QS reaches <em>higher server load</em> for <em>complex queries</em> because of increased data transfer</h2>
+      <table>
+          <tr>
+              <th class="title"></th>
+              <th style="text-align:center">Q6</th>
+              <th style="text-align:center">Q9</th>
+              <th style="text-align:center">Q11*</th>
+          </tr>
+          <tr>
+              <td class="title">CPU</td>
+              <td><img src="img/q6.svg" width=250px /></td>
+              <td><img src="img/q9.svg" width=250px /></td>
+              <td><img src="img/q11.svg" width=250px /></td>
+          </tr>
+          <tr>
+              <td class="title">Latency</td>
+              <td><img src="img/q6-lat.svg" width=250px /></td>
+              <td><img src="img/q9-lat.svg" width=250px /></td>
+              <td><img src="img/q11-lat.svg" width=250px /></td>
+          </tr>
+      </table>
+      <em>*C-SPARQL fails for Q11</em>
+    </section>
+    
+    <section id="results-client" class="slide">
+      <h2>TPF-QS client load initially peaks,<br />and then drops</h2>
+      <center><img src="img/clientcpu.svg" width=800px /></center>
+      <ul>
+          <li>Load does not drop for Q2 and Q9,<br />because query evaluation duration &gt; query frequency (10 seconds)</li>
+      </ul>
+    </section>
+    
+    <section id="conclusions" class="slide">
+      <h2>Conclusion: there is potential for lightweight streaming interfaces</h2>
+      <ul>
+          <li class="next">
+              <h3>TPF is <em>good</em> for publishing <em>slow streams</em></h3>
+              <p class="indent">TPF-QS is effective for <em>simple queries</em>, but not for <em>complex queries</em>.</p>
+          </li>
+          <li class="next">
+              <h3>TPF is <em>not good</em> for publishing <em>fast streams</em></h3>
+              <p class="indent">HTTP delay becomes too significant.</p>
+          </li>
+          <li class="next">
+              <h3>Research on <em>alternative interfaces</em> is needed</h3>
+              <p class="indent">TPF with a temporal index?</p>
+              <p class="indent">TPF with streaming responses?</p>
+              <p class="indent">...</p>
+          </li>
+      </ul>
     </section>
 
     <footer>
