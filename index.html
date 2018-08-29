@@ -69,7 +69,7 @@
     <section id="index" class="slide index">
       <ul>
         <li><a href="#index-tpfqs">TPF-QS: a Client-side RDF Stream Processor</a></li>
-        <li><a href="#index-rspql">RSPQL Formalization</a></li>
+        <li><a href="#index-rspql">RSP-QL Formalization</a></li>
         <li><a href="#index-comparison">Comparison with other RSP engines</a></li>
       </ul>
     </section>
@@ -77,7 +77,7 @@
     <section id="index-tpfqs" class="slide index">
       <ul>
         <li class="current"><a href="#index-tpfqs">TPF-QS: a Client-side RDF Stream Processor</a></li>
-        <li><a href="#index-rspql">RSPQL Formalization</a></li>
+        <li><a href="#index-rspql">RSP-QL Formalization</a></li>
         <li><a href="#index-comparison">Comparison with other RSP engines</a></li>
       </ul>
     </section>
@@ -91,7 +91,7 @@
           </li>
           <li class="next">
               <h3><a href="#tpf">Low-cost server</a></h3>
-              <p class="indent">Expose RDF streams through a <strong>TPF interface</strong></p>
+              <p class="indent">Expose (non-volatile) RDF streams through a <strong>TPF interface</strong></p>
           </li>
           <li class="next">
               <h3><a href="#client-exec">Just-in-time</a></h3>
@@ -102,7 +102,7 @@
     
     <section id="time-annotation" class="slide">
       <h2>RDF stream annotation to indicate expiration times</h2>
-      <p class="next"><em><strong>Assumption</strong>: duration of each stream element is predefined</em></p>
+      <p class="next"><em><strong>Assumption</strong>: validity duration of each stream element is predefined</em></p>
       <ul class="next">
           <li><em>09:15 - 09:20</em> &nbsp; <pre class="inline">radio:my m:plays song-x</pre></li>
           <li><em>09:20 - 09:25</em> &nbsp; <pre class="inline">radio:my m:plays song-y</pre></li>
@@ -191,9 +191,103 @@
     <section id="index-rspql" class="slide index">
       <ul>
         <li><a href="#index-tpfqs">TPF-QS: a Client-side RDF Stream Processor</a></li>
-        <li class="current"><a href="#index-rspql">RSPQL Formalization</a></li>
+        <li class="current"><a href="#index-rspql">RSP-QL Formalization</a></li>
         <li><a href="#index-comparison">Comparison with other RSP engines</a></li>
       </ul>
+    </section>
+    
+    <section id="rspql-overview" class="slide">
+      <h2>RSP-QL: A unifying RSP Query Model <a property="schema:citation cite:cites" href="https://www.igi-global.com/article/rsp-ql-semantics/129761" class="reference">(Dell'Aglio 2014)</a></h2>
+      <p>Captures the <strong>differences between DSMS systems</strong> such as CQELS, C-SPARQL.</p>
+      <p class="next">Extension of RDF and SPARQL, adding <strong>time semantics</strong>.</p>
+      <div class="next definition">
+          <div>RDF stream <code>S</code>: unbounded sequence of pairs <code>(τ, t)</code>.</div>
+          <div class="indent"><code>τ</code>: RDF statement</div>
+          <div class="indent"><code>t</code>: Time instant</div>
+      </div>
+    </section>
+    
+    <section id="rspql-overview" class="slide">
+      <h2>RSP-QL applies <em>windows</em> to streams</h2>
+      <ul>
+          <li class="next">A window <code>W</code> takes a chunk out of the potentially infinite stream.</li>
+          <li class="next">The output of a windowing operation is a <em>time-varying graph <code>G<sub>W</sub></code></em>.</li>
+          <li class="next">
+              Query evaluation over <code>G<sub>W</sub></code> at certain time instants.
+              <div class="indent"><em>Different <em>policies</em> exist to determine these time instants.</em></div>
+              <div class="indent"><em>e.g.: periodic, on content-change, ...</em></div>
+          </li>
+      </ul>
+      <strong>TODO: add figure of window</strong>
+    </section>
+    
+    <section id="rspql-tpfqs" class="slide">
+      <h2>TPF-QS in terms of RSP-QL <em>(summary)</em></h2>
+      <ul>
+          <li class="next">
+              <h3>Stream elements annotated with time intervals</h3>
+              <p class="indent">Intervals indicate <em>valid time</em>.</p>
+          </li>
+          <li class="next">
+              <h3>Tumbling time-based window, width = 1 time unit</h3>
+              <p class="indent">Forms a sequence of consecutive windows for each time unit.</p>
+              <p class="indent">Simple query evaluation, as the resulting <code>G<sub>W</sub></code> is atemporal.</p>
+          </li>
+          <li class="next">
+              <h3>Mapping-expire policy</h3>
+              <p class="indent">Query is (re-)evaluated when previous result mappings expire.</p>
+              <p class="indent">Does not exist in other RSP engines, only possible because of valid time on statements.</p>
+          </li>
+      </ul>
+    </section>
+    
+    <section id="rspql-tpfqs-example" class="slide">
+      <h2>TPF-QS in terms of RSP-QL: example</h2>
+      <strong>TODO: if time left</strong>
+    </section>
+    
+    <section id="index-comparison" class="slide index">
+      <ul>
+        <li><a href="#index-tpfqs">TPF-QS: a Client-side RDF Stream Processor</a></li>
+        <li><a href="#index-rspql">RSP-QL Formalization</a></li>
+        <li class="current"><a href="#index-comparison">Comparison with other RSP engines</a></li>
+      </ul>
+    </section>
+    
+    <section id="rspql-operation-semantics" class="slide">
+      <h2>Comparison of Operational Semantics under RSP-QL <em>(summary)</em></h2>
+      <table>
+          <tr>
+              <th class="title">Feature</th>
+              <th>TPF-QS</th>
+              <th>C-SPARQL</th>
+              <th>CQELS</th>
+          </tr>
+          <tr>
+              <td class="title">Volatile streams</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+          </tr>
+          <tr>
+              <td class="title">Data retrieval</td>
+              <td>Pull</td>
+              <td>Push</td>
+              <td>Push</td>
+          </tr>
+          <tr>
+              <td class="title">Time annotation</td>
+              <td>Time Interval</td>
+              <td>Timestamp</td>
+              <td>Timestamp</td>
+          </tr>
+          <tr>
+              <td class="title">Window policy</td>
+              <td>Mapping-expire</td>
+              <td>Window-close + Non-empty</td>
+              <td>Content-change</td>
+          </tr>
+      </table>
     </section>
 
     <footer>

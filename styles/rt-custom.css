@@ -182,6 +182,41 @@ li.inactive {
     display: inline;
 }
 
+.definition {
+    background: #bee5e1;
+    padding: 0.5em;
+}
+
+.definition::before {
+    content: "Definition: ";
+    font-size: 1.1em;
+    font-weight: bold;
+    font-style: italic;
+}
+
+.slide code {
+    background: none;
+}
+
+.slide tr:not(:last-of-type) > * {
+    background: none;
+}
+
+.slide th,
+.slide td {
+    padding-left: 0.2em;
+}
+
+.slide th {
+    border-bottom: solid 1px var(--color-light);
+}
+
+.slide th.title,
+.slide td.title {
+    border-right: solid 1px var(--color-light);
+    font-weight: bold;
+}
+
 @media print {
     .slide {
         background: white;
