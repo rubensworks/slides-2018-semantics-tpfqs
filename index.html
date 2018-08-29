@@ -22,7 +22,7 @@
   <body class="shower list" prefix="rdf: http://www.w3.org/1999/02/22-rdf-syntax-ns# foaf: http://xmlns.com/foaf/0.1/ owl: http://www.w3.org/2002/07/owl# xsd: http://www.w3.org/2001/XMLSchema# org: http://www.w3.org/ns/org# schema: http://schema.org/ cite: http://purl.org/spar/cito/" typeof="schema:PresentationDigitalDocument">
     <header class="caption">
       <div class="title">
-        <h1 property="schema:name">On the Semantics of TPF-QS</h1>
+        <h1 property="schema:name"><a href="https://www.rubensworks.net/publications/taelman_semantics_tpfqs_2018/">On the Semantics of TPF-QS</a></h1>
         <p class="subtitle">Towards Publishing and Querying RDF Streams at Web-scale</p>
       </div>
       <div class="captiondata">
@@ -63,13 +63,13 @@
     </section>
     
     <section id="research-question" class="slide center">
-      <h2 class="big">How does <strong>TPF-QS</strong> compare to other RDF Stream Processing (RSP) engines, both <strong>formally</strong> and <strong>empirically</strong>?</h2>
+      <h2 class="big">How does <strong>TPF-QS</strong> compare to other RDF Stream Processing (RSP) engines, both <strong>formally</strong> and <strong>experimentally</strong>?</h2>
     </section>
     
     <section id="index" class="slide index">
       <ul>
         <li><a href="#index-tpfqs">TPF-QS: a Client-side RDF Stream Processor</a></li>
-        <li><a href="#index-rspql">RSPQL Formalization</a></li>
+        <li><a href="#index-rspql">RSP-QL Formalization</a></li>
         <li><a href="#index-comparison">Comparison with other RSP engines</a></li>
       </ul>
     </section>
@@ -77,7 +77,7 @@
     <section id="index-tpfqs" class="slide index">
       <ul>
         <li class="current"><a href="#index-tpfqs">TPF-QS: a Client-side RDF Stream Processor</a></li>
-        <li><a href="#index-rspql">RSPQL Formalization</a></li>
+        <li><a href="#index-rspql">RSP-QL Formalization</a></li>
         <li><a href="#index-comparison">Comparison with other RSP engines</a></li>
       </ul>
     </section>
@@ -91,7 +91,7 @@
           </li>
           <li class="next">
               <h3><a href="#tpf">Low-cost server</a></h3>
-              <p class="indent">Expose RDF streams through a <strong>TPF interface</strong></p>
+              <p class="indent">Expose (non-volatile) RDF streams through a <strong>TPF interface</strong></p>
           </li>
           <li class="next">
               <h3><a href="#client-exec">Just-in-time</a></h3>
@@ -102,7 +102,7 @@
     
     <section id="time-annotation" class="slide">
       <h2>RDF stream annotation to indicate expiration times</h2>
-      <p class="next"><em><strong>Assumption</strong>: duration of each stream element is predefined</em></p>
+      <p class="next"><em><strong>Assumption</strong>: validity duration of each stream element is predefined</em></p>
       <ul class="next">
           <li><em>09:15 - 09:20</em> &nbsp; <pre class="inline">radio:my m:plays song-x</pre></li>
           <li><em>09:20 - 09:25</em> &nbsp; <pre class="inline">radio:my m:plays song-y</pre></li>
@@ -191,8 +191,226 @@
     <section id="index-rspql" class="slide index">
       <ul>
         <li><a href="#index-tpfqs">TPF-QS: a Client-side RDF Stream Processor</a></li>
-        <li class="current"><a href="#index-rspql">RSPQL Formalization</a></li>
+        <li class="current"><a href="#index-rspql">RSP-QL Formalization</a></li>
         <li><a href="#index-comparison">Comparison with other RSP engines</a></li>
+      </ul>
+    </section>
+    
+    <section id="rspql-overview" class="slide">
+      <h2>RSP-QL: A unifying RSP Query Model <a property="schema:citation cite:cites" href="https://www.igi-global.com/article/rsp-ql-semantics/129761" class="reference">(Dell'Aglio 2014)</a></h2>
+      <p>Captures the <strong>differences between DSMS systems</strong> such as CQELS, C-SPARQL.</p>
+      <p class="next">Extension of RDF and SPARQL, adding <strong>time semantics</strong>.</p>
+      <div class="next definition">
+          <div>RDF stream <code>S</code>: unbounded sequence of pairs <code>(τ, t)</code>.</div>
+          <div class="indent"><code>τ</code>: RDF statement</div>
+          <div class="indent"><code>t</code>: Time instant</div>
+      </div>
+    </section>
+    
+    <section id="rspql-overview" class="slide">
+      <h2>RSP-QL applies <em>windows</em> to streams</h2>
+      <ul>
+          <li class="next">A window <code>W</code> takes a chunk out of the potentially infinite stream.</li>
+          <li class="next">The output of a windowing operation is a <em>time-varying graph <code>G<sub>W</sub></code></em>.</li>
+          <li class="next">
+              Query evaluation over <code>G<sub>W</sub></code> at certain time instants.
+              <div class="indent"><em>Different <em>policies</em> exist to determine these time instants.</em></div>
+              <div class="indent"><em>e.g.: periodic, on content-change, ...</em></div>
+          </li>
+      </ul>
+      <strong>TODO: add figure of window</strong>
+    </section>
+    
+    <section id="rspql-tpfqs" class="slide">
+      <h2>TPF-QS in terms of RSP-QL <em>(summary)</em></h2>
+      <ul>
+          <li class="next">
+              <h3>Stream elements annotated with time intervals</h3>
+              <p class="indent">Intervals indicate <em>valid time</em>.</p>
+          </li>
+          <li class="next">
+              <h3>Tumbling time-based window, width = 1 time unit</h3>
+              <p class="indent">Forms a sequence of consecutive windows for each time unit.</p>
+              <p class="indent">Simple query evaluation, as the resulting <code>G<sub>W</sub></code> is atemporal.</p>
+          </li>
+          <li class="next">
+              <h3>Mapping-expire policy</h3>
+              <p class="indent">Query is (re-)evaluated when previous result mappings expire.</p>
+              <p class="indent">Does not exist in other RSP engines, only possible because of valid time on statements.</p>
+          </li>
+      </ul>
+    </section>
+    
+    <section id="rspql-tpfqs-example" class="slide">
+      <h2>TPF-QS in terms of RSP-QL: example</h2>
+      <strong>TODO: if time left</strong>
+    </section>
+    
+    <section id="index-comparison" class="slide index">
+      <ul>
+        <li><a href="#index-tpfqs">TPF-QS: a Client-side RDF Stream Processor</a></li>
+        <li><a href="#index-rspql">RSP-QL Formalization</a></li>
+        <li class="current"><a href="#index-comparison">Comparison with other RSP engines</a></li>
+      </ul>
+    </section>
+    
+    <section id="rspql-operational-semantics" class="slide">
+      <h2>Comparison of Operational Semantics under RSP-QL <em>(summary)</em></h2>
+      <table>
+          <tr>
+              <th class="title">Feature</th>
+              <th>TPF-QS</th>
+              <th>C-SPARQL</th>
+              <th>CQELS</th>
+          </tr>
+          <tr>
+              <td class="title">Volatile streams</td>
+              <td>No</td>
+              <td>Yes</td>
+              <td>Yes</td>
+          </tr>
+          <tr>
+              <td class="title">Data retrieval</td>
+              <td>Pull</td>
+              <td>Push</td>
+              <td>Push</td>
+          </tr>
+          <tr>
+              <td class="title">Time annotation</td>
+              <td>Time Interval</td>
+              <td>Timestamp</td>
+              <td>Timestamp</td>
+          </tr>
+          <tr>
+              <td class="title">Window policy</td>
+              <td>Mapping-expire</td>
+              <td>Window-close + Non-empty</td>
+              <td>Content-change</td>
+          </tr>
+      </table>
+    </section>
+    
+    <section id="citybench" class="slide">
+      <h2>Experimental comparison using CityBench <a property="schema:citation cite:cites" href="https://link.springer.com/chapter/10.1007/978-3-319-25010-6_25" class="reference">(Ali 2015)</a></h2>
+      <ul>
+          <li class="next">
+              <h3>RSP benchmarking suite based on real-world sensor data</h3>
+              <p class="indent">Streams have a low volatility, ideal for TPF-QS</p>
+          </li>
+          <li class="next">
+              <h3>Relevant metrics for RSP</h3>
+              <p class="indent">Result completeness: result streams vs expected streams</p>
+              <p class="indent">Scalability: CPU usage and execution time</p>
+              <p class="indent">Result latency: Delay until each stream element appears as result</p>
+          </li>
+          <li class="next">
+              <h3>Adapters for benchmarking C-SPARQL and CQELS</h3>
+          </li>
+      </ul>
+    </section>
+    
+    <section id="citybench-adaptation" class="slide">
+      <h2>Adaptation of CityBench for TPF-QS</h2>
+      <em>CityBench does not work out-of-the-box with TPF-QS, so changes were needed.</em>
+      <ul>
+          <li class="next">
+              <h3>Queries only available in C-SPARQL and CQELS syntax</h3>
+              <p class="indent">Equivalent SPARQL 1.1 queries were created for TPF-QS</p>
+              <p class="indent"><em><a href="https://zenodo.org/record/200844#.W4ZQBZMzaHq">Transformation algorithm in appendix</a></em></p>
+          </li>
+          <li class="next">
+              <h3>Assumption of server-side engines</h3>
+              <p class="indent">Multi-client support was added for single TPF server and multiple TPF-QS clients</p>
+              <p class="indent">Client CPU usage and bandwidth usage is also measures</p>
+          </li>
+      </ul>
+    </section>
+    
+    <section id="citybench-setup" class="slide">
+      <h2>Experimental Setup of CityBench</h2>
+      <ul>
+          <li>TPF-QS, C-SPARQL, CQELS</li>
+          <li>1 server machine, 8 client machines</li>
+          <li>6 CityBench queries <em>(resulting frequency of 10 seconds)</em></li>
+          <li>Concurrent clients: 1, 16, 32, 64</li>
+          <li>15 minutes experiment runtime</li>
+      </ul>
+    </section>
+    
+    <section id="results-simple" class="slide">
+      <h2>TPF-QS achieves <em>lower server CPU usage</em> and <em>lower latency</em> for <em>simple queries</em></h2>
+      <table>
+          <tr>
+              <th class="title"></th>
+              <th style="text-align:center">Q1</th>
+              <th style="text-align:center">Q2</th>
+              <th style="text-align:center">Q3</th>
+          </tr>
+          <tr>
+              <td class="title">CPU</td>
+              <td><img src="img/q1.svg" width=250px /></td>
+              <td><img src="img/q2.svg" width=250px /></td>
+              <td><img src="img/q3.svg" width=250px /></td>
+          </tr>
+          <tr>
+              <td class="title">Latency</td>
+              <td><img src="img/q1-lat.svg" width=250px /></td>
+              <td><img src="img/q2-lat.svg" width=250px /></td>
+              <td><img src="img/q3-lat.svg" width=250px /></td>
+          </tr>
+      </table>
+    </section>
+    
+    <section id="results-complex" class="slide">
+      <h2>TPF-QS reaches <em>higher server load</em> for <em>complex queries</em> because of increased data transfer</h2>
+      <table>
+          <tr>
+              <th class="title"></th>
+              <th style="text-align:center">Q6</th>
+              <th style="text-align:center">Q9</th>
+              <th style="text-align:center">Q11*</th>
+          </tr>
+          <tr>
+              <td class="title">CPU</td>
+              <td><img src="img/q6.svg" width=250px /></td>
+              <td><img src="img/q9.svg" width=250px /></td>
+              <td><img src="img/q11.svg" width=250px /></td>
+          </tr>
+          <tr>
+              <td class="title">Latency</td>
+              <td><img src="img/q6-lat.svg" width=250px /></td>
+              <td><img src="img/q9-lat.svg" width=250px /></td>
+              <td><img src="img/q11-lat.svg" width=250px /></td>
+          </tr>
+      </table>
+      <em>*C-SPARQL fails for Q11</em>
+    </section>
+    
+    <section id="results-client" class="slide">
+      <h2>TPF-QS client load initially peaks,<br />and then drops</h2>
+      <center><img src="img/clientcpu.svg" width=800px /></center>
+      <ul>
+          <li>Load does not drop for Q2 and Q9,<br />because query evaluation duration &gt; query frequency (10 seconds)</li>
+      </ul>
+    </section>
+    
+    <section id="conclusions" class="slide">
+      <h2>Conclusion: there is potential for lightweight streaming interfaces</h2>
+      <ul>
+          <li class="next">
+              <h3>TPF is <em>good</em> for publishing <em>slow streams</em></h3>
+              <p class="indent">TPF-QS is effective for <em>simple queries</em>, but not for <em>complex queries</em>.</p>
+          </li>
+          <li class="next">
+              <h3>TPF is <em>not good</em> for publishing <em>fast streams</em></h3>
+              <p class="indent">HTTP delay becomes too significant.</p>
+          </li>
+          <li class="next">
+              <h3>Research on <em>alternative interfaces</em> is needed</h3>
+              <p class="indent">TPF with a temporal index?</p>
+              <p class="indent">TPF with streaming responses?</p>
+              <p class="indent">...</p>
+          </li>
       </ul>
     </section>
 
