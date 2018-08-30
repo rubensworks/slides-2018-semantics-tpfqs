@@ -86,12 +86,12 @@
       <h2>TPF-QS is a client-side RSP engine</h2>
       <ul>
           <li class="next">
-              <h3><a href="#time-annotation">Time annotation</a></h3>
+              <h3><a href="#time-annotation">Time interval annotation</a></h3>
               <p class="indent">RDF streams are <strong>annotated</strong> with their time validity</p>
           </li>
           <li class="next">
               <h3><a href="#tpf">Low-cost server</a></h3>
-              <p class="indent">Expose (non-volatile) RDF streams through a <strong>TPF interface</strong></p>
+              <p class="indent">Expose (slow) RDF streams through a <strong>TPF interface</strong></p>
           </li>
           <li class="next">
               <h3><a href="#client-exec">Just-in-time</a></h3>
@@ -102,25 +102,25 @@
     
     <section id="time-annotation" class="slide">
       <h2>RDF stream annotation to indicate expiration times</h2>
-      <p class="next"><em><strong>Assumption</strong>: validity duration of each stream element is predefined</em></p>
+      <p class="next"><em><strong>Assumption</strong>: expiration time of each stream element is predefined</em></p>
       <ul class="next">
           <li><em>09:15 - 09:20</em> &nbsp; <pre class="inline">radio:my m:plays song-x</pre></li>
           <li><em>09:20 - 09:25</em> &nbsp; <pre class="inline">radio:my m:plays song-y</pre></li>
           <li><em>09:25 - 09:30</em> &nbsp; <pre class="inline">radio:my m:plays song-z</pre></li>
       </ul>
-      <p class="next">Can be serialized as named graphs, singleton properties, reification, ...</p>
     </section>
     
     <section id="tpf" class="slide">
       <h2>Triple Pattern Fragments, <a property="schema:citation cite:cites" href="https://ruben.verborgh.org/publications/verborgh_jws_2016/" class="reference">(Verborgh 2016)</a><br />a low-cost Linked Data interface</h2>
       <ul>
-          <li>Server exposes <strong>triple pattern</strong> interface over HTTP:
+          <li class="next">Server exposes <strong>triple pattern</strong> interface over HTTP:
               <code style="display: block">http://fragments.dbpedia.org/2016-04/en<br />
               ?subject=<strong>&lt;subject&gt;</strong>&predicate=<strong>&lt;predicate&gt;</strong>&object=<strong>&lt;object&gt;</strong>
               </code>
           </li>
-          <li>Clients evaluate full SPARQL queries client-side</li>
-          <li>&rarr; Lowers server load</li>
+          <li class="next">RDF streams are published as <em>annotated</em> RDF statements</li>
+          <li class="next">Clients evaluate full SPARQL queries client-side
+              <br />&rarr; Lowers server load</li>
       </ul>
       <center><img src="img/ldf.svg" width="300em" alt="Linked Data Fragments" class="center" /></center>
     </section>
@@ -139,8 +139,8 @@
           <div style="float:right"><strong>Query results:</strong>
               <ul>
                   <li><em>09:15</em> &nbsp; <pre class="inline">song-x</pre></li>
-                  <li class="inactive"><em>09:20</em> &nbsp; <pre class="inline">song-x</pre></li>
-                  <li class="inactive"><em>09:25</em> &nbsp; <pre class="inline">song-x</pre></li>
+                  <li class="inactive"><em>09:20</em> &nbsp; <pre class="inline">song-y</pre></li>
+                  <li class="inactive"><em>09:25</em> &nbsp; <pre class="inline">song-z</pre></li>
               </ul>
           </div>
       </div>
@@ -160,8 +160,8 @@
           <div style="float:right"><strong>Query results:</strong>
               <ul>
                   <li class="inactive"><em>09:15</em> &nbsp; <pre class="inline">song-x</pre></li>
-                  <li><em>09:20</em> &nbsp; <pre class="inline">song-x</pre></li>
-                  <li class="inactive"><em>09:25</em> &nbsp; <pre class="inline">song-x</pre></li>
+                  <li><em>09:20</em> &nbsp; <pre class="inline">song-y</pre></li>
+                  <li class="inactive"><em>09:25</em> &nbsp; <pre class="inline">song-z</pre></li>
               </ul>
           </div>
       </div>
@@ -181,8 +181,8 @@
           <div style="float:right"><strong>Query results:</strong>
               <ul>
                   <li class="inactive"><em>09:15</em> &nbsp; <pre class="inline">song-x</pre></li>
-                  <li class="inactive"><em>09:20</em> &nbsp; <pre class="inline">song-x</pre></li>
-                  <li><em>09:25</em> &nbsp; <pre class="inline">song-x</pre></li>
+                  <li class="inactive"><em>09:20</em> &nbsp; <pre class="inline">song-y</pre></li>
+                  <li><em>09:25</em> &nbsp; <pre class="inline">song-z</pre></li>
               </ul>
           </div>
       </div>
@@ -236,7 +236,7 @@
           <li class="next">
               <h3>Mapping-expire policy</h3>
               <p class="indent">Query is (re-)evaluated when previous result mappings expire.</p>
-              <p class="indent">Does not exist in other RSP engines, only possible because of valid time on statements.</p>
+              <p class="indent">Does not exist in other RSP engines, only possible because of knowledge of expiration times.</p>
           </li>
       </ul>
     </section>
@@ -247,7 +247,8 @@
     </section>
     
     <section id="rspql-operational-semantics" class="slide">
-      <h2>Comparison of Operational Semantics under RSP-QL <em>(summary)</em></h2>
+      <h2>Comparison of Operational Semantics <em>(summary)</em></h2>
+      <strong>TODO: remove?</strong>
       <table>
           <tr>
               <th class="title">Feature</th>
@@ -295,12 +296,12 @@
       <ul>
           <li class="next">
               <h3>RSP benchmarking suite based on real-world sensor data</h3>
-              <p class="indent">Streams have a low volatility, ideal for TPF-QS</p>
+              <p class="indent">Streams evolve slowly, ideal for TPF-QS</p>
           </li>
           <li class="next">
               <h3>Relevant metrics for RSP</h3>
               <p class="indent">Result completeness: result streams vs expected streams</p>
-              <p class="indent">Scalability: CPU usage and execution time</p>
+              <p class="indent">Scalability: CPU usage and execution time for increasing number of clients</p>
               <p class="indent">Result latency: Delay until each stream element appears as result</p>
           </li>
           <li class="next">
@@ -399,7 +400,7 @@
       <ul>
           <li class="next">
               <h3>TPF is <em>good</em> for publishing <em>slow streams</em></h3>
-              <p class="indent">TPF-QS is effective for <em>simple queries</em>, but not for <em>complex queries</em>.</p>
+              <p class="indent">Effective for <em>simple queries</em>, but not for <em>complex queries</em>.</p>
           </li>
           <li class="next">
               <h3>TPF is <em>not good</em> for publishing <em>fast streams</em></h3>
