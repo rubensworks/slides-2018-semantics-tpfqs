@@ -217,6 +217,10 @@ li.inactive {
     font-weight: bold;
 }
 
+.hide {
+    visibility: hidden;
+}
+
 @media print {
     .slide {
         background: white;

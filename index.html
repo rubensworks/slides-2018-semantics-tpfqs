@@ -48,16 +48,17 @@
       <p class="affiliation"><sup>2</sup><a href="https://www.deib.polimi.it/ita/home">Dipartimento di Elettronica, Informazione e Bioingegneria, Politecnico of Milano, Italy</a></p>
     </section>
     
-    <section id="start" class="slide center">
-      <h2 class="big">Just like <strong>SPARQL query endpoints</strong> are costly for publishing <strong>RDF</strong> on the Web,<br />
-          SPARQL-like <strong>RSP engines</strong> are costly for publishing <strong>RDF streams</strong>.</h2>
+    <section id="start" class="slide center" style="background-image: url('img/radio.jpg'); background-size: cover">
+        <!-- Data streams come in all forms and shapes, in this presentation, we focus on RDF streams that evolve slowly, such as song names in radio playlists -->
+        <h2 class="big" style="margin-top: 20px; color: white; text-shadow: 2px 2px black;">Song information as a <em>slow</em> RDF stream</h2>
     </section>
     
     <section id="tpfqs-intro" class="slide">
-      <h2>Instead of fully processing server-side,<br />let clients do part of the query work</h2>
-      <center><h3 class="next">TPF-QS: Client-side RDF Stream Processing <a property="schema:citation cite:cites" href="https://www.rubensworks.net/publications/taelman_mepdaw_bp_2016/" class="reference">(Taelman 2016)</a></h3></center>
+      <h2>How to publish slow streams<br />at a low cost?</h2>
+      <center><h3 class="next">TPF-QS: Triple Pattern Fragments Query Streamer <a property="schema:citation cite:cites" href="https://www.rubensworks.net/publications/taelman_mepdaw_bp_2016/" class="reference">(Taelman 2016)</a></h3></center>
       <ul>
-          <li class="next">Client interacts with the low-cost <em>Triple Pattern Fragments</em> server interface</li>
+          <li class="next">Client-side RDF Stream Processor that continuously queries over RDF streams</li>
+          <li class="next">Stream are published through a <em>Triple Pattern Fragments</em> (TPF) interface</li>
       </ul>
       <center><img src="img/ldf.svg" width="300em" alt="Linked Data Fragments" class="center" /></center>
     </section>
@@ -113,11 +114,7 @@
     <section id="tpf" class="slide">
       <h2>Triple Pattern Fragments, <a property="schema:citation cite:cites" href="https://ruben.verborgh.org/publications/verborgh_jws_2016/" class="reference">(Verborgh 2016)</a><br />a low-cost Linked Data interface</h2>
       <ul>
-          <li class="next">Server exposes <strong>triple pattern</strong> interface over HTTP:
-              <code style="display: block">http://fragments.dbpedia.org/2016-04/en<br />
-              ?subject=<strong>&lt;subject&gt;</strong>&predicate=<strong>&lt;predicate&gt;</strong>&object=<strong>&lt;object&gt;</strong>
-              </code>
-          </li>
+          <li class="next">Server exposes <strong>triple pattern</strong> interface over HTTP</li>
           <li class="next">RDF streams are published as <em>annotated</em> RDF statements</li>
           <li class="next">Clients evaluate full SPARQL queries client-side
               <br />&rarr; Lowers server load</li>
@@ -210,15 +207,43 @@
     <section id="rspql-overview" class="slide">
       <h2>RSP-QL applies <em>windows</em> to streams</h2>
       <ul>
-          <li class="next">A window <code>W</code> takes a chunk out of the potentially infinite stream.</li>
-          <li class="next">The output of a windowing operation is a <em>time-varying graph <code>G<sub>W</sub></code></em>.</li>
+          <li class="hide">A window operation <code>W</code> takes a chunk out of the potentially infinite stream.</li>
+          <li class="hide">The output of a window operation is a <em>time-varying graph <code>G<sub>W</sub></code></em>.</li>
+          <li class="hide">
+              Query evaluation over <code>G<sub>W</sub></code> at certain time instants.
+              <div class="indent"><em>Different <em>policies</em> exist to determine these time instants.</em></div>
+              <div class="indent"><em>e.g.: periodic, on content-change, ...</em></div>
+          </li>
+          <center><img src="img/stream.svg" width="500px"></center>
+      </ul>
+    </section>
+    
+    <section id="rspql-overview" class="slide">
+      <h2>RSP-QL applies <em>windows</em> to streams</h2>
+      <ul>
+          <li>A window operation <code>W</code> takes a chunk out of the potentially infinite stream.</li>
+          <li class="hide">The output of a window operation is a <em>time-varying graph <code>G<sub>W</sub></code></em>.</li>
+          <li class="hide">
+              Query evaluation over <code>G<sub>W</sub></code> at certain time instants.
+              <div class="indent"><em>Different <em>policies</em> exist to determine these time instants.</em></div>
+              <div class="indent"><em>e.g.: periodic, on content-change, ...</em></div>
+          </li>
+          <center><img src="img/stream_window.svg" width="500px"></center>
+      </ul>
+    </section>
+    
+    <section id="rspql-overview" class="slide">
+      <h2>RSP-QL applies <em>windows</em> to streams</h2>
+      <ul>
+          <li>A window operation <code>W</code> takes a chunk out of the potentially infinite stream.</li>
+          <li>The output of a window operation is a <em>time-varying graph <code>G<sub>W</sub></code></em>.</li>
           <li class="next">
               Query evaluation over <code>G<sub>W</sub></code> at certain time instants.
               <div class="indent"><em>Different <em>policies</em> exist to determine these time instants.</em></div>
               <div class="indent"><em>e.g.: periodic, on content-change, ...</em></div>
           </li>
+          <center><img src="img/stream_window_graph.svg" width="500px"></center>
       </ul>
-      <strong>TODO: add figure of window</strong>
     </section>
     
     <section id="rspql-tpfqs" class="slide">
@@ -239,48 +264,6 @@
               <p class="indent">Does not exist in other RSP engines, only possible because of knowledge of expiration times.</p>
           </li>
       </ul>
-    </section>
-    
-    <section id="rspql-tpfqs-example" class="slide">
-      <h2>TPF-QS in terms of RSP-QL: example</h2>
-      <strong>TODO: if time left</strong>
-    </section>
-    
-    <section id="rspql-operational-semantics" class="slide">
-      <h2>Comparison of Operational Semantics <em>(summary)</em></h2>
-      <strong>TODO: remove?</strong>
-      <table>
-          <tr>
-              <th class="title">Feature</th>
-              <th>TPF-QS</th>
-              <th>C-SPARQL</th>
-              <th>CQELS</th>
-          </tr>
-          <tr>
-              <td class="title">Volatile streams</td>
-              <td>No</td>
-              <td>Yes</td>
-              <td>Yes</td>
-          </tr>
-          <tr>
-              <td class="title">Data retrieval</td>
-              <td>Pull</td>
-              <td>Push</td>
-              <td>Push</td>
-          </tr>
-          <tr>
-              <td class="title">Time annotation</td>
-              <td>Time Interval</td>
-              <td>Timestamp</td>
-              <td>Timestamp</td>
-          </tr>
-          <tr>
-              <td class="title">Window policy</td>
-              <td>Mapping-expire</td>
-              <td>Window-close + Non-empty</td>
-              <td>Content-change</td>
-          </tr>
-      </table>
     </section>
     
     <section id="index-comparison" class="slide index">
@@ -336,6 +319,7 @@
           <li>Concurrent clients: 1, 16, 32, 64</li>
           <li>15 minutes experiment runtime</li>
       </ul>
+      <center><img src="img/client-server.svg" height="500px" /></center>
     </section>
     
     <section id="results-simple" class="slide">
