@@ -23,7 +23,7 @@
     <header class="caption">
       <div class="title">
         <h1 property="schema:name"><a href="https://www.rubensworks.net/publications/taelman_semantics_tpfqs_2018/">On the Semantics of TPF-QS</a></h1>
-        <p class="subtitle">Towards Publishing and Querying RDF Streams at Web-scale</p>
+        <p class="subtitle">Towards Publishing and Querying RDF Streams at a lower cost</p>
       </div>
       <div class="captiondata">
         <p class="author" rel="schema:author"><a href="https://www.rubensworks.net/#me">Ruben Taelman</a></p>
@@ -200,7 +200,7 @@
     
     <section id="rspql-overview" class="slide">
       <h2>RSP-QL: A unifying RSP Query Model <a property="schema:citation cite:cites" href="https://www.igi-global.com/article/rsp-ql-semantics/129761" class="reference">(Dell'Aglio 2014)</a></h2>
-      <p>Captures the <strong>differences between DSMS systems</strong> such as CQELS, C-SPARQL.</p>
+      <p>Captures the <strong>differences between systems</strong> such as CQELS, C-SPARQL.</p>
       <p class="next">Extension of RDF and SPARQL, adding <strong>time semantics</strong>.</p>
       <div class="next definition">
           <div>RDF stream <code>S</code>: unbounded sequence of pairs <code>(τ, t)</code>.</div>
@@ -291,9 +291,9 @@
           </li>
           <li class="next">
               <h3>Relevant metrics for RSP</h3>
-              <p class="indent">Result completeness: result streams vs expected streams</p>
-              <p class="indent">Scalability: CPU usage and execution time for increasing number of clients</p>
-              <p class="indent">Result latency: Delay until each stream element appears as result</p>
+              <p class="indent"><strong>Result completeness</strong>: result streams vs expected streams</p>
+              <p class="indent"><strong>Scalability</strong>: CPU usage and execution time for increasing number of clients</p>
+              <p class="indent"><strong>Result latency</strong>: Delay until each stream element appears as result</p>
           </li>
           <li class="next">
               <h3>Adapters for benchmarking C-SPARQL and CQELS</h3>
@@ -324,8 +324,8 @@
           <li>TPF-QS, C-SPARQL, CQELS</li>
           <li>1 server machine, 8 client machines</li>
           <li>6 CityBench queries <em>(resulting frequency of 10 seconds)</em></li>
-          <li>Concurrent clients: 1, 16, 32, 64</li>
-          <li>15 minutes experiment runtime</li>
+          <li>Concurrent queries: 1, 16, 32, 64</li>
+          <li>15 minutes query evaluation runtime</li>
       </ul>
       <center><img src="img/client-server.svg" height="500px" /></center>
     </section>
@@ -399,7 +399,7 @@
               <p class="indent">HTTP delay becomes too significant.</p>
           </li>
           <li class="next">
-              <h3>Research on <em>alternative interfaces</em> is needed</h3>
+              <h3><em>Alternative interfaces</em> are needed for <em>different types</em> of streams</h3>
               <p class="indent">TPF with a temporal index?</p>
               <p class="indent">TPF with streaming responses?</p>
               <p class="indent">...</p>
